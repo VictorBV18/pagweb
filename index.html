@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba de página web</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Comic sans", cursive, sans-serif;
+            background: linear-gradient(to right, #003b24, #ec9704);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        .logo {
+            position: absolute;
+            top: 15px;
+            width: 100px;
+            border-radius: 15px;
+        }
+        #logoUniversidad {
+            left: 25px;
+        }
+        #logoCampus {
+            right: 25px;
+        }
+        .banner {
+            margin-top: 10px;
+            width: 100%;
+            max-width: 1300px;
+            border-radius: 15px;
+        }
+        /* Cada imagen tiene un posicionamiento único */
+        #imgObjetivos, #imgMision, #imgVision, #imgPerfilIngreso, #imgPerfilEgreso, #imgCampoLaboral, #imgPlanEstudios, #imgTitulacion,#imgMapa {
+            border-radius: 15px;
+            cursor: pointer;
+        }
+        #imgObjetivos { position: absolute; top: 270px; left: 65px; width: 26%; max-width: 1200px; }
+        #imgMision { position: absolute; top: 270px; left: 440px; }
+        #imgVision { position: absolute; top: 440px; left: 450px; }
+        #imgPerfilIngreso { position: absolute; top: 630px; left: 65px; width: 21%; max-width: 1200px; }
+        #imgPerfilEgreso { position: absolute; top: 630px; left: 370px; width: 16%; max-width: 1200px; }
+        #imgCampoLaboral { position: absolute; top: 630px; left: 600px; }
+        #imgPlanEstudios { position: absolute; top: 270px; left: 610px; width: 38%; max-width: 1200px; }
+        #imgTitulacion {  position: absolute;top: 270px; left: 1150px; width: 10%;max-width: 1200px;}
+        #imgMapa {  
+    position: absolute;
+    top: 440px; 
+    left: 1150px; 
+    width: 12%;
+    max-width: 1200px;
+}
+         
+        /* Estilos para las ventanas emergentes */
+        .info-text {
+            display: none;
+            width: 80%;
+            max-width: 500px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            text-align: left;
+        }
+        /* Botón de cierre en la esquina superior derecha */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            color: #333;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        /* Fondo oscuro para el efecto de superposición */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 99;
+        }
+        .location-box {
+            background-color: #c5e1a5;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 10px;
+            width: 231px;
+            height: 231px;
+            text-align: center;
+            position: relative;
+            top: 370px;
+            left: 415px;
+        }
+
+
+        .pdf-viewer {
+            display: none;
+            width: 80%;
+            max-width: 800px;
+            height: 80vh;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            text-align: center;
+        }
+        .pdf-viewer iframe {
+            width: 100%;
+            height: 90%;
+            border: none;
+            border-radius: 10px;
+        }
+        .pdf-viewer .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            color: #333;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .scrollable-info {
+    display: none;
+    width: 80%;
+    max-width: 500px;
+    max-height: 70vh; /* Limita la altura para que el scroll sea necesario */
+    overflow-y: auto; /* Agrega desplazamiento vertical */
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    text-align: left;
+}
+    </style>
+</head>
+<body>
+    <!-- Fondo de superposición -->
+    <div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+    <!-- Logos de la universidad y el campus -->
+    <img src="C:/Users/Erandy/OneDrive/Escritorio/uaem.jpg" alt="Logo Universidad" class="logo" id="logoUniversidad">
+    <img src="C:/Users/Erandy/OneDrive/Escritorio/fac.jpg" alt="Logo Campus" class="logo" id="logoCampus">
+
+    <!-- Imagen de la Licenciatura en Educación -->
+    <img src="C:/Users/Erandy/OneDrive/Escritorio/LED.png" alt="Licenciatura en Educación" class="banner">
+
+    <!-- Imágenes con posición ajustable -->
+    <img src="C:/Users/Erandy/OneDrive/Escritorio/Objetivos.png" alt="Objetivos" id="imgObjetivos" onclick="toggleInfo('info1')">
+    <img src="C:/Users/Erandy/OneDrive/Escritorio/Mision.png" alt="Misión" id="imgMision" onclick="toggleInfo('info2')">
+    <img src="C:/Users/Erandy/OneDrive/Escritorio/Vision.png" alt="Visión" id="imgVision" onclick="toggleInfo('info3')">
+    <img src="C:/Users/Erandy/OneDrive/Escritorio/Perfil_de_ingreso.png" alt="Perfil de Ingreso" id="imgPerfilIngreso" onclick="toggleInfo('info4')">
+    <img src="C:/Users/Erandy/OneDrive/Escritorio/Perfil_de_egreso.png" alt="Perfil de Egreso" id="imgPerfilEgreso" onclick="toggleInfo('info6')">
+    <img src="C:/Users/Erandy/OneDrive/Escritorio/Campo_Laboral.png" alt="Campo Laboral" id="imgCampoLaboral" onclick="toggleInfo('info7')">
+    <img src="C:/Users/Erandy/OneDrive/Escritorio/plan_de_estudios.png" alt="Plan de Estudios" id="imgPlanEstudios" onclick="toggleInfo('info5')">
+    <img src="C:/Users/Erandy/OneDrive/Escritorio/titulacion.jpg" alt="Opciones de Titulación" id="imgTitulacion" onclick="showScrollableInfo()">
+
+    <img src="C:/Users/Erandy/OneDrive/Escritorio/Mapa.png" alt="Mapa Curricular" id="imgMapa" onclick="showPDF()">
+
+
+    <!-- Ventanas emergentes con botón de cierre -->
+    <div id="info1" class="info-text">
+        <span class="close-btn" onclick="closeAll()">&times;</span>
+        <h3>OBJETIVOS</h3>
+        <p>La Licenciatura en Educación busca formar profesionistas con las habilidades y valores para entender y mejorar la educación en México. Estos son los objetivos:</p>
+<p>
+° Valorar y disfrutar la diversidad cultural.<br>
+° Actuar con principios éticos y valores universitarios.<br>
+° Fomentar la cooperación y la solidaridad.<br>
+° Desarrollar un juicio profesional justo y confiable.<br>
+° Cuidar su salud y tener un desarrollo físico integral.<br>
+° Usar el tiempo libre de forma creativa.<br>
+° Dominar el inglés en contextos educativos.<br>
+° Adaptarse a los cambios en las ciencias y profesiones.<br>
+° Aprovechar la tecnología para crecer en el ámbito laboral.
+</p>
+
+    </div>
+
+    <div id="info2" class="info-text">
+        <span class="close-btn" onclick="closeAll()">&times;</span>
+        <h3>MISIÓN</h3>
+        <p> La misión de la Licenciatura en Educación es formar profesionistas en el estudio de los procesos educativos, ya sea en escuelas, trabajos o comunidades. Esto incluye temas como la enseñanza, el diseño de proyectos educativos, la creación de políticas educativas y la gestión de recursos. Además, estos profesionistas deben actuar con perspectiva de género, promover el cuidado del medio ambiente, fomentar la participación ciudadana y usar el inglés como una segunda lengua.</p>
+    </div>
+
+    <div id="info3" class="info-text">
+        <span class="close-btn" onclick="closeAll()">&times;</span>
+        <h3>VISIÓN</h3>
+        <p>La visión es formar profesionales en Educación con conocimientos sólidos en teoría, metodología y práctica, siempre con ética, perspectiva de género, y sostenibilidad. Se busca que puedan desempeñarse con calidad en la docencia, crear proyectos educativos, gestionar recursos en instituciones educativas, evaluar el sistema educativo, investigar y tomar decisiones para mejorar la educación en México.</p>
+    </div>
+
+    <div id="info4" class="info-text">
+        <span class="close-btn" onclick="closeAll()">&times;</span>
+        <h3>PERFIL DE INGRESO</h3>
+        <p><p>¿Quieres estudiar la Licenciatura en Educación? Aquí te decimos qué habilidades y conocimientos se buscan en los aspirantes:</p>
+
+<p>
+° <strong>Aptitudes:</strong> Tener buena capacidad para entender conceptos abstractos, leer y expresar ideas claramente.<br>
+° <strong>Intereses:</strong> Disfrutar de trabajar en equipo, relacionarse con otras personas y hacer actividades organizadas.<br>
+° <strong>Actitudes:</strong> Tener disposición para trabajar bajo ciertas reglas, influir positivamente y organizar grupos.<br>
+° <strong>Rasgos:</strong> Ser ético, responsable y honesto, con confianza en ti mismo.<br>
+° <strong>Conocimientos previos:</strong> Sería ideal que tengas conocimientos en ciencias sociales, ciencias experimentales y habilidades de comunicación.
+</p>
+ </div>
+
+    <div id="info5" class="info-text">
+        <span class="close-btn" onclick="closeAll()">&times;</span>
+        <h3>PLAN DE ESTUDIOS</h3>
+
+<p>El plan de estudios dura cuatro años (8 semestres) y es flexible. Incluye 43 materias obligatorias y algunas optativas. Los temas se organizan en tres áreas:</p>
+
+<p>
+° <strong>Núcleo básico:</strong> Aquí aprenderás los fundamentos teóricos, filosóficos y culturales de la educación.<br>
+° <strong>Núcleo sustantivo:</strong> Adquirirás conocimientos específicos y prácticos sobre la enseñanza y cómo funciona la educación.<br>
+° <strong>Núcleo integral:</strong> Aplicarás lo aprendido en escenarios reales para prepararte en la práctica profesional.
+</p>
+    </div>
+
+    <div id="info7" class="info-text">
+        <span class="close-btn" onclick="closeAll()">&times;</span>
+        <h3>CAMPO LABORAL</h3>
+
+<p>Como Licenciado en Educación, podrás trabajar en varias áreas de educación, como:</p>
+
+<p>
+° <strong>Centros de formación y capacitación:</strong> Podrás trabajar en instituciones como la Secretaría de Educación Pública y áreas de recursos humanos en empresas privadas.<br>
+° <strong>Institutos de evaluación educativa:</strong> Tendrás la opción de trabajar en centros como el CENEVAL o el IFIEE, ayudando a evaluar y mejorar la educación.<br>
+° <strong>Centros de investigación educativa:</strong> Puedes colaborar con universidades y centros de investigación para explorar problemas y soluciones en educación.<br>
+° <strong>Consultoría y proyectos propios:</strong> Si quieres ser independiente, puedes ofrecer tus servicios como consultor o diseñar proyectos educativos.
+</p>
+    </div>
+
+    <div id="info6" class="info-text">
+    <span class="close-btn" onclick="closeAll()">&times;</span>
+    <h3>PERFIL DE EGRESO</h3>
+    <p>Al graduarte, tendrás varias opciones laborales relacionadas con la educación. Esto incluye:</p>
+
+<p>
+° Dar clases en diferentes niveles educativos (primaria, secundaria, universidad).<br>
+° Crear y evaluar proyectos para mejorar la educación.<br>
+° Gestionar recursos en instituciones educativas para su mejor uso.<br>
+° Evaluar y analizar procesos educativos para tomar decisiones y mejorar políticas.<br>
+° Investigar temas educativos para entender mejor cómo funciona el sistema.<br>
+° Como profesional, también aprenderás temas emergentes como la perspectiva de género, la sostenibilidad, la formación ciudadana y el uso del inglés.
+</p>
+
+
+</div>
+
+ <div id="infoScrollable" class="scrollable-info">
+    <span class="close-btn" onclick="closeAll()">&times;</span>
+
+    <h3>Opciones de Titulación</h3>
+    <p><strong>Artículo en Revista Científica:</strong> Escribir y publicar un artículo en una revista científica reconocida. Aquí muestras tus habilidades para investigar un tema y presentarlo de manera profesional. Necesitas que expertos revisen y aprueben tu trabajo.</p>
+    <p><strong>Examen General de Egreso (EGEL):</strong> Presentas un examen que evalúa todo lo que aprendiste en la carrera. Si lo apruebas, demuestras que tienes las habilidades necesarias para ser profesional en tu área. Este examen es nacional y lo aplica el CENEVAL.</p>
+    <p><strong>Memoria de Experiencia Laboral:</strong> Si ya trabajaste en algo relacionado con tu carrera, puedes titularte haciendo un reporte sobre tu experiencia laboral. Explicas cómo aplicaste tus conocimientos en ese trabajo y qué aprendiste.</p>
+    <p><strong>Reporte de Autoempleo:</strong> Si tienes tu propio negocio o trabajo por tu cuenta en algo relacionado con la carrera, puedes titularte con un reporte que explique cómo usas tus habilidades para ofrecer servicios o productos.</p>
+    <p><strong>Reporte de Residencia de Investigación:</strong> Realizas una investigación práctica en una institución, empresa u organización. Luego presentas un reporte detallado de tu experiencia y los resultados de la investigación.</p>
+    <p><strong>Tesis (Cualitativa, Cuantitativa o Documental):</strong> La tesis es una investigación en profundidad sobre un tema específico. Hay tres tipos de tesis: cualitativa, cuantitativa y documental, y el estudiante elige según sus intereses y habilidades.</p>
+
+
+</div>
+
+    <!-- Visor de PDF -->
+    <div class="pdf-viewer" id="pdfViewer">
+        <span class="close-btn" onclick="closePDF()">&times;</span>
+        <iframe src="Mapa_Curricular.pdf" id="pdfFrame"></iframe> <!-- Cambia a la ruta relativa del PDF -->
+
+
+
+
+</div>
+
+
+    <!-- Cuadro de ubicación -->
+    <div class="location-box">
+        <p><strong>Ubicación</strong><br>
+        Av. Filiberto Gómez s/n, Guadalupe, Barrio de Tlacopa, 50010 Toluca de Lerdo, Méx.<br>
+        <strong>Contactos</strong><br>
+        722 272 0076</p>
+    </div>
+
+    <script>
+        function toggleInfo(infoId) {
+            closeAll();
+            var infoDiv = document.getElementById(infoId);
+            var overlay = document.getElementById("overlay");
+            infoDiv.style.display = "block";
+            overlay.style.display = "block";
+        }
+
+        function closeAll() {
+    var infoTexts = document.getElementsByClassName("info-text");
+    for (var i = 0; i < infoTexts.length; i++) {
+        infoTexts[i].style.display = "none";
+    }
+    closePDF(); // Cierra el visor de PDF, si está abierto
+    document.getElementById("infoScrollable").style.display = "none"; // Cierra la ventana de Titulación
+    document.getElementById("overlay").style.display = "none"; // Oculta el fondo de superposición
+}
+
+        function showPDF() {
+            closeAll();
+            var pdfViewer = document.getElementById("pdfViewer");
+            var overlay = document.getElementById("overlay");
+            pdfViewer.style.display = "block";
+            overlay.style.display = "block";
+        }
+
+        function closePDF() {
+    var pdfViewer = document.getElementById("pdfViewer");
+    if (pdfViewer) {
+        pdfViewer.style.display = "none";
+    }
+    document.getElementById("overlay").style.display = "none"; // Asegúrate de ocultar la superposición aquí también
+}
+
+        function showScrollableInfo() {
+            closeAll(); // Cierra cualquier ventana abierta
+            document.getElementById("infoScrollable").style.display = "block";
+            document.getElementById("overlay").style.display = "block"; // Muestra el fondo de superposición
+}
+    </script>
+</body>
+</html>
